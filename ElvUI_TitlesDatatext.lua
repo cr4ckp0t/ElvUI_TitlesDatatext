@@ -149,6 +149,7 @@ local function CreateMenu(self, level)
 			
 			for _, title in pairs(titles) do
 				local firstChar = title.name:sub(1, 1):upper()
+				menu = wipe(menu)
 				menu.hasArrow = false
 				menu.notCheckable = true
 				menu.text = title.formatName
