@@ -45,7 +45,7 @@ local function pairsByKeys(startChar, f)
 end
 
 local function GetTitleFormat(data)
-	if data == -1 then return ("|cff71d5ff%s|r"):format(L["None"]) end
+	if data == -1 then return ("|cffffffff%s|r"):format(L["None"]) end
 	local title, formatTitle, replace, name = GetTitleName(data), "", "", ""
 
 	-- determine the title formatting for display
@@ -55,9 +55,9 @@ local function GetTitleFormat(data)
 		else
 			replace = "%s "
 		end
-		formatTitle = replace .. ("|cff71d5ff%s|r"):format(title)
+		formatTitle = replace .. ("|cffffffff%s|r"):format(title)
 	else
-		formatTitle = ("|cff71d5ff%s|r"):format(title) .. "%s"
+		formatTitle = ("|cffffffff%s|r"):format(title) .. "%s"
 	end
 	
 	if not E.db.titlesdt.useName then
@@ -92,7 +92,7 @@ end
 local function TitleClick(button, info)
 	SetCurrentTitle(info)
 	if info ~= -1 then
-		local tName = info ~= -1 and GetTitleFormat(info) or ("|cff71d5ff%s|r"):format(L["None"]) 
+		local tName = info ~= -1 and GetTitleFormat(info) or ("|cffffffff%s|r"):format(L["None"]) 
 		DEFAULT_CHAT_FRAME:AddMessage((L["Title changed to \"%s\"."]):format(tName), 1.0, 1.0, 0)
 	else
 		DEFAULT_CHAT_FRAME:AddMessage(L["You have elected not to use a title."], 1.0, 1.0, 0)
@@ -108,7 +108,7 @@ local function CreateMenu(self, level)
 		menu.hasArrow = false
 		menu.notCheckable = true
 		menu.text = L["None"]
-		menu.colorCode = "|cff71d5ff"
+		menu.colorCode = "|cffffffff"
 		menu.func = TitleClick
 		menu.arg1 = -1
 		UIDropDownMenu_AddButton(menu)
@@ -139,7 +139,7 @@ local function CreateMenu(self, level)
 			menu.hasArrow = false
 			menu.notCheckable = true
 			menu.text = L["None"]
-			menu.colorCode = "|cff71d5ff"
+			menu.colorCode = "|cffffffff"
 			menu.func = TitleClick
 			menu.arg1 = -1
 			UIDropDownMenu_AddButton(menu, level)
