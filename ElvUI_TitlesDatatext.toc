@@ -1,7 +1,7 @@
 ## Interface: 80100
 ## Author: Lockslap
 ## Title: |cff1784d1ElvUI|r Titles Datatext
-## Version: 3.0.2
+## Version: 3.0.3
 ## Notes: Simple titles datatext.
 ## RequiredDeps: ElvUI
 

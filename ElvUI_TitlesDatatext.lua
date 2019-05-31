@@ -14,6 +14,7 @@ local join		= string.join
 local sort		= table.sort
 local wipe		= table.wipe
 local tinsert	= table.insert
+local random	= math.random
 
 local displayString = ""
 local noTitles		= ""
@@ -26,6 +27,15 @@ local startChar	= {
 	[L["AI"]]	= {},
 	[L["JR"]]	= {},
 	[L["SZ"]]	= {},
+}
+
+E.PopupDialogs.TITLESDT_RL = {
+	text = L["In order for this change to take effect you must reload your UI."],
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnAccept = ReloadUI,
+	whileDead = 1,
+	hideOnEscape = false,
 }
 
 local function pairsByKeys(startChar, f)
@@ -91,12 +101,15 @@ end
 
 local function TitleClick(button, info)
 	SetCurrentTitle(info)
-	if info ~= -1 then
-		local tName = info ~= -1 and GetTitleFormat(info) or ("|cffffffff%s|r"):format(L["None"]) 
-		DEFAULT_CHAT_FRAME:AddMessage((L["Title changed to \"%s\"."]):format(tName), 1.0, 1.0, 0)
-	else
-		DEFAULT_CHAT_FRAME:AddMessage(L["You have elected not to use a title."], 1.0, 1.0, 0)
-	end
+	DEFAULT_CHAT_FRAME:AddMessage(info ~= -1 and (L["Title changed to \"%s\"."]):format(GetTitleFormat(info)) or L["You have elected not to use a title."], 1.0, 1.0, 0)
+end
+
+local function RandomClick(button, info)
+	UpdateTitles()
+	if #titles == 0 then return end
+	local rand = random(1, #titles)
+	SetCurrentTitle(titles[rand].id)
+	DEFAULT_CHAT_FRAME:AddMessage((L["Title changed to \"%s\"."]):format(GetTitleFormat(titles[rand].id)), 1.0, 1.0, 0)
 end
 
 local function CreateMenu(self, level)
@@ -105,13 +118,26 @@ local function CreateMenu(self, level)
 	
 	if #titles == 0 then return end
 	if #titles <= 10 then
-		menu.hasArrow = false
-		menu.notCheckable = true
-		menu.text = L["None"]
-		menu.colorCode = "|cffffffff"
-		menu.func = TitleClick
-		menu.arg1 = -1
-		UIDropDownMenu_AddButton(menu)
+		-- add "none" option
+		if E.db.titlesdt.addNone then			
+			menu.hasArrow = false
+			menu.notCheckable = true
+			menu.text = L["None"]
+			menu.colorCode = "|cffff0000"
+			menu.func = TitleClick
+			menu.arg1 = -1
+			UIDropDownMenu_AddButton(menu)
+		end
+
+		-- add "random" option
+		if E.db.titlesdt.addRandom then		
+			menu.hasArrow = false
+			menu.notCheckable = true
+			menu.text = L["Random"]
+			menu.colorCode = "|cff00ff00"
+			menu.func = RandomClick
+			UIDropDownMenu_AddButton(menu)
+		end
 		
 		for _, title in pairs(titles) do
 			menu.hasArrow = false
@@ -136,15 +162,28 @@ local function CreateMenu(self, level)
 				UIDropDownMenu_AddButton(menu, level)
 			end
 			
-			menu.hasArrow = false
-			menu.notCheckable = true
-			menu.text = L["None"]
-			menu.colorCode = "|cffffffff"
-			menu.func = TitleClick
-			menu.arg1 = -1
-			UIDropDownMenu_AddButton(menu, level)
+			-- add "none" option
+			if E.db.titlesdt.addNone then			
+				menu.hasArrow = false
+				menu.notCheckable = true
+				menu.text = L["None"]
+				menu.colorCode = "|cffff0000"
+				menu.func = TitleClick
+				menu.arg1 = -1
+				UIDropDownMenu_AddButton(menu, level)
+			end
+
+			-- add "random" option
+			if E.db.titlesdt.addRandom then		
+				menu.hasArrow = false
+				menu.notCheckable = true
+				menu.text = L["Random"]
+				menu.colorCode = "|cff00ff00"
+				menu.func = RandomClick
+				UIDropDownMenu_AddButton(menu, level)
+			end
 		elseif level == 2 then
-			
+			-- add the sorted titles
 			local Level1_Key = UIDROPDOWNMENU_MENU_VALUE["Level1_Key"]
 			
 			for _, title in pairs(titles) do
@@ -178,7 +217,7 @@ local function OnEnter(self)
 	DT:SetupTooltip(self)
 	DT.tooltip:AddLine(GetTitleFormat(GetCurrentTitle()))
 	DT.tooltip:AddLine(" ")
-	DT.tooltip:AddLine(("|cff00ff00%s|r |cff00ff96%d|r |cff00ff00%s.|r"):format(L["You have"], #titles, L["titles"]))
+	DT.tooltip:AddLine(("|cff00ff00You have|r |cff00ff96%d|r |cff00ff00titles.|r"):format(#titles))
 	DT.tooltip:AddLine(L["<Click> to select a title."])
 	DT.tooltip:Show()
 end
@@ -211,6 +250,7 @@ local function Update(self, elapsed)
 end
 
 local function Click(self, button)
+	DT.tooltip:Hide()
 	ToggleDropDownMenu(1, nil, Frame, self, 0, 0)
 end
 
@@ -223,6 +263,8 @@ E["valueColorUpdateFuncs"][ValueColorUpdate] = true
 
 P["titlesdt"] = {
 	["useName"] = true,
+	["addRandom"] = true,
+	["addNone"] = true,
 }
 
 local function InjectOptions()
@@ -254,10 +296,26 @@ local function InjectOptions()
 		set = function(info, value) E.db.titlesdt[info[#info]] = value; DT:LoadDataTexts() end,
 		args = {
 			useName = {
-				type	= "toggle",
-				order	= 4,
-				name	= L["Use Character Name"],
-				desc	= L["Use your character's class color and name in the tooltip."],
+				type = "toggle",
+				order = 4,
+				name = L["Use Character Name"],
+				desc = L["Use your character's class color and name in the tooltip."],
+			},
+			addRandom = {
+				type = "toggle",
+				order = 5,
+				name = L["Random Option"],
+				desc = L["Add random option to the datatext menu.\n\n|cffff0000Changing this setting requires reloading your UI.|r"],
+				get = function(info) return E.db.titlesdt.addRandom end,
+				set = function(info, value) E.db.titlesdt.addRandom = value; E:StaticPopup_Show("TITLESDT_RL") end,
+			},
+			addNone = {
+				type = "toggle",
+				order = 6,
+				name = L["None Option"],
+				desc = L["Add none option to the datatext menu. This will set your title to none.\n\n|cffff0000Changing this setting requires reloading your UI.|r"],
+				get = function(info) return E.db.titlesdt.addNone end,
+				set = function(info, value) E.db.titlesdt.addNone = value; E:StaticPopup_Show("TITLESDT_RL") end,
 			},
 		},
 	}
