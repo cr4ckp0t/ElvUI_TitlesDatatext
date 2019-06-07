@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI Titles Datatext By Lockslap (US, Bleeding Hollow)
+-- ElvUI Titles Datatext By Crackpotx (US, Lightbringer)
 -------------------------------------------------------------------------------
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI_TitlesDatatext", "zhTW", false)

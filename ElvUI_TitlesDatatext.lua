@@ -1,10 +1,23 @@
 -------------------------------------------------------------------------------
--- ElvUI Titles Datatext By Lockslap
+-- ElvUI Titles Datatext By Crackpotx
 -------------------------------------------------------------------------------
 local E, _, V, P, G = unpack(ElvUI)
 local DT = E:GetModule('DataTexts')
 local L = LibStub("AceLocale-3.0"):GetLocale("ElvUI_TitlesDatatext", false)
 local EP = LibStub("LibElvUIPlugin-1.0")
+
+local unpack = _G["unpack"]
+local CreateFrame = _G["CreateFrame"]
+local GetTitleName = _G["GetTitleName"]
+local UnitClass = _G["UnitClass"]
+local UnitName = _G["UnitName"]
+local GetNumTitles = _G["GetNumTitles"]
+local IsTitleKnown = _G["IsTitleKnown"]
+local GetCurrentTitle = _G["GetCurrentTitle"]
+local SetCurrentTitle = _G["SetCurrentTitle"]
+local UIDropDownMenu_AddButton = _G["UIDropDownMenu_AddButton"]
+local ToggleDropDownMenu = _G["ToggleDropDownMenu"]
+local StaticPopup_Show = _G["StaticPopup_Show"]
 
 local format	= string.format
 local sub		= string.sub
@@ -268,28 +281,28 @@ P["titlesdt"] = {
 }
 
 local function InjectOptions()
-	if not E.Options.args.lockslap then
-		E.Options.args.lockslap = {
+	if not E.Options.args.Crackpotx then
+		E.Options.args.Crackpotx = {
 			type = "group",
 			order = -2,
-			name = L["Plugins by |cff9382c9Lockslap|r"],
+			name = L["Plugins by |cff9382c9Crackpotx|r"],
 			args = {
 				thanks = {
 					type = "description",
 					order = 1,
-					name = L["Thanks for using and supporting my work!  -- |cff9382c9Lockslap|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
+					name = L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
 				},
 			},
 		}
-	elseif not E.Options.args.lockslap.args.thanks then
-		E.Options.args.lockslap.args.thanks = {
+	elseif not E.Options.args.Crackpotx.args.thanks then
+		E.Options.args.Crackpotx.args.thanks = {
 			type = "description",
 			order = 1,
-			name = L["Thanks for using and supporting my work!  -- |cff9382c9Lockslap|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
+			name = L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
 		}
 	end
 	
-	E.Options.args.lockslap.args.titlesdt = {
+	E.Options.args.Crackpotx.args.titlesdt = {
 		type = "group",
 		name = L["Titles Datatext"],
 		get = function(info) return E.db.titlesdt[info[#info]] end,

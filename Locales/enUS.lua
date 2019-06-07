@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI_TitlesDatatext By Lockslap (US, Bleeding Hollow)
+-- ElvUI_TitlesDatatext By Crackpotx (US, Lightbringer)
 -------------------------------------------------------------------------------
 local debug = false
 --@debug@
@@ -23,13 +23,13 @@ L["Jenkins"] = true
 L["No Titles"] = true
 L["None Option"] = true
 L["None"] = true
-L["Plugins by |cff9382c9Lockslap|r"] = true
+L["Plugins by |cff9382c9Crackpotx|r"] = true
 L["R"] = true
 L["Random Option"] = true
 L["Random"] = true
 L["S"] = true
 L["SZ"] = true
-L["Thanks for using and supporting my work!  -- |cff9382c9Lockslap|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."] = true
+L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."] = true
 L["Title changed to \"%s\"."] = true
 L["Titles Datatext"] = true
 L["Titles"] = true
