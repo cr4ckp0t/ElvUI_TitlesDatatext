@@ -244,15 +244,30 @@ function Frame:PLAYER_ENTERING_WORLD()
 	
 	UpdateTitles()
 end
-Frame:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
-Frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+
+local function OnEvent(self, event, ...)
+	lastPanel = self
+
+	if event == "PLAYER_ENTERING_WORLD" then
+		Frame.initialize = CreateMenu
+		Frame.displayMode = "MENU"
+	end
+
+	if #titles == 0 then
+		self.text:SetFormattedText(noTitles, L["No Titles"])
+	else
+		self.text:SetFormattedText(displayString, L["Titles"], #titles)
+	end	
+
+	UpdateTitles()
+end
 
 local interval = 15
-local function Update(self, elapsed)
+local function OnUpdate(self, elapsed)
 	if not self.lastUpdate then self.lastUpdate = 0 end
 	self.lastUpdate = self.lastUpdate + elapsed
 	if self.lastUpdate > interval then
-		UpdateTitles()
+		OnEvent(self)
 		self.lastUpdate = 0
 	end
 	if #titles == 0 then
@@ -270,9 +285,12 @@ end
 local function ValueColorUpdate(hex, r, g, b)
 	displayString = join("", "|cffffffff%s:|r", " ", hex, "%d|r")
 	noTitles = join("", hex, "%s|r")
-	if lastPanel ~= nil then OnEvent(lastPanel) end
+
+	if lastPanel ~= nil then
+		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
+	end
 end
-E["valueColorUpdateFuncs"][ValueColorUpdate] = true
+E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 P["titlesdt"] = {
 	["useName"] = true,
@@ -285,12 +303,12 @@ local function InjectOptions()
 		E.Options.args.Crackpotx = {
 			type = "group",
 			order = -2,
-			name = L["Plugins by |cff9382c9Crackpotx|r"],
+			name = L["Plugins by |cff0070deCrackpotx|r"],
 			args = {
 				thanks = {
 					type = "description",
 					order = 1,
-					name = L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
+					name = L["Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
 				},
 			},
 		}
@@ -298,7 +316,7 @@ local function InjectOptions()
 		E.Options.args.Crackpotx.args.thanks = {
 			type = "description",
 			order = 1,
-			name = L["Thanks for using and supporting my work!  -- |cff9382c9Crackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
+			name = L["Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
 		}
 	end
 	
@@ -335,4 +353,4 @@ local function InjectOptions()
 end
 
 EP:RegisterPlugin(..., InjectOptions)
-DT:RegisterDatatext("Titles", nil, nil, Update, Click, OnEnter)
+DT:RegisterDatatext("Titles", {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter)
