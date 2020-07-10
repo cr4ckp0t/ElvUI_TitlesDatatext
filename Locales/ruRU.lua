@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI Titles Datatext By Crackpotx (US, Lightbringer)
+-- ElvUI Titles Datatext By Crackpot (US, Thrall)
 --------------------------------------------------------------------------------
 local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
 local L = AceLocale:NewLocale("ElvUI_TitlesDatatext", "ruRU", false)

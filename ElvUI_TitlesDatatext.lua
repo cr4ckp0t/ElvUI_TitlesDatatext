@@ -353,4 +353,5 @@ local function InjectOptions()
 end
 
 EP:RegisterPlugin(..., InjectOptions)
-DT:RegisterDatatext("Titles", {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter)
+DT:RegisterDatatext("Titles", nil, {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter, nil, L["Titles"])
+--DT:RegisterDatatext("Titles", {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter)

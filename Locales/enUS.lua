@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- ElvUI_TitlesDatatext By Crackpotx (US, Lightbringer)
+-- ElvUI_TitlesDatatext By Crackpot (US, Thrall)
 -------------------------------------------------------------------------------
 local debug = false
 --@debug@
