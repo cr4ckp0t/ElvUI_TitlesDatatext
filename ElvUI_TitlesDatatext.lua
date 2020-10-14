@@ -277,7 +277,7 @@ local function OnUpdate(self, elapsed)
 	end	
 end
 
-local function Click(self, button)
+local function OnClick(self, button)
 	DT.tooltip:Hide()
 	ToggleDropDownMenu(1, nil, Frame, self, 0, 0)
 end
