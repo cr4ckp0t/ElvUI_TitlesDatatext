@@ -248,18 +248,15 @@ end
 local function OnEvent(self, event, ...)
 	lastPanel = self
 
-	if event == "PLAYER_ENTERING_WORLD" then
-		Frame.initialize = CreateMenu
-		Frame.displayMode = "MENU"
-	end
+	UpdateTitles()
 
 	if #titles == 0 then
 		self.text:SetFormattedText(noTitles, L["No Titles"])
 	else
 		self.text:SetFormattedText(displayString, L["Titles"], #titles)
-	end	
+	end
 
-	UpdateTitles()
+	CreateMenu()
 end
 
 local interval = 15
@@ -297,6 +294,13 @@ P["titlesdt"] = {
 	["addRandom"] = true,
 	["addNone"] = true,
 }
+
+Frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+Frame:SetScript("OnEvent", function(self, event, ...)
+	self.initialize = CreateMenu
+	self.displayMode = "MENU"
+	self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+end)
 
 local function InjectOptions()
 	if not E.Options.args.Crackpotx then
