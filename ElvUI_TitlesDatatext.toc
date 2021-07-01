@@ -1,7 +1,7 @@
-## Interface: 90005
-## Author: Crackpotx
+## Interface: 90100
+## Author: Crackpot
 ## Title: |cff1784d1ElvUI|r Titles Datatext
-## Version: 3.2.2
+## Version: 3.2.3
 ## Notes: Simple titles datatext.
 ## RequiredDeps: ElvUI
 
