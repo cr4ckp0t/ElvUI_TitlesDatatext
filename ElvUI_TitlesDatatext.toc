@@ -1,7 +1,7 @@
-## Interface: 100000
+## Interface: 100002
 ## Author: Crackpot
 ## Title: |cff1784d1ElvUI|r Titles Datatext
-## Version: 3.2.9
+## Version: 3.2.10
 ## Notes: Simple titles datatext.
 ## RequiredDeps: ElvUI
 
@@ -22,4 +22,5 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 
 ElvUI_TitlesDatatext.lua
+
 
