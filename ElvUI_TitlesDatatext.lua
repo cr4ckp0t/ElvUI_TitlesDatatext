@@ -19,27 +19,26 @@ local UIDropDownMenu_AddButton = _G["UIDropDownMenu_AddButton"]
 local ToggleDropDownMenu = _G["ToggleDropDownMenu"]
 local StaticPopup_Show = _G["StaticPopup_Show"]
 
-local format	= string.format
-local sub		= string.sub
-local len		= string.len
-local find		= string.find
-local join		= string.join
-local sort		= table.sort
-local wipe		= table.wipe
-local tinsert	= table.insert
-local random	= math.random
+local format = string.format
+local sub = string.sub
+local len = string.len
+local find = string.find
+local join = string.join
+local sort = table.sort
+local wipe = table.wipe
+local tinsert = table.insert
+local random = math.random
 
 local displayString = ""
-local noTitles		= ""
-local titles		= {}
-local lastPanel
+local noTitles = ""
+local titles = {}
 
-local Frame		= CreateFrame("Frame")
-local menu 		= {}
-local startChar	= {
-	[L["AI"]]	= {},
-	[L["JR"]]	= {},
-	[L["SZ"]]	= {},
+local Frame = CreateFrame("Frame")
+local menu = {}
+local startChar = {
+	[L["AI"]] = {},
+	[L["JR"]] = {},
+	[L["SZ"]] = {},
 }
 
 E.PopupDialogs.TITLESDT_RL = {
@@ -246,8 +245,6 @@ function Frame:PLAYER_ENTERING_WORLD()
 end
 
 local function OnEvent(self, event, ...)
-	lastPanel = self
-
 	UpdateTitles()
 
 	if #titles == 0 then
@@ -279,15 +276,11 @@ local function OnClick(self, button)
 	ToggleDropDownMenu(1, nil, Frame, self, 0, 0)
 end
 
-local function ValueColorUpdate(hex, r, g, b)
+local function ValueColorUpdate(self, hex, r, g, b)
 	displayString = join("", "|cffffffff%s:|r", " ", hex, "%d|r")
 	noTitles = join("", hex, "%s|r")
-
-	if lastPanel ~= nil then
-		OnEvent(lastPanel, "ELVUI_COLOR_UPDATE")
-	end
+	OnEvent(self)
 end
-E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
 P["titlesdt"] = {
 	["useName"] = true,
@@ -357,5 +350,4 @@ local function InjectOptions()
 end
 
 EP:RegisterPlugin(..., InjectOptions)
-DT:RegisterDatatext("Titles", nil, {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter, nil, L["Titles"])
---DT:RegisterDatatext("Titles", {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter)
+DT:RegisterDatatext("Titles", nil, {"PLAYER_ENTERING_WORLD", "KNOWN_TITLES_UPDATE"}, OnEvent, OnUpdate, OnClick, OnEnter, nil, L["Titles"], nil, ValueColorUpdate)
