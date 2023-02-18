@@ -3,8 +3,8 @@
 -------------------------------------------------------------------------------
 local E, _, V, P, G = unpack(ElvUI)
 local DT = E:GetModule('DataTexts')
-local L = LibStub("AceLocale-3.0"):GetLocale("ElvUI_TitlesDatatext", false)
-local EP = LibStub("LibElvUIPlugin-1.0")
+local L = E.Libs.ACL:GetLocale("ElvUI_TitlesDatatext", false)
+local EP = E.Libs.EP
 
 local unpack = _G["unpack"]
 local CreateFrame = _G["CreateFrame"]

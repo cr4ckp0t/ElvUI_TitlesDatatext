@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
--- ElvUI Titles Datatext By Crackpot (US, Illidan)
---------------------------------------------------------------------------------
-local AceLocale = LibStub:GetLibrary("AceLocale-3.0")
-local L = AceLocale:NewLocale("ElvUI_TitlesDatatext", "koKR", false)
+-- ElvUI_TitlesDatatext By Crackpot (US, Illidan)
+-------------------------------------------------------------------------------
+local L = ElvUI[1].Libs.ACL:NewLocale("ElvUI_TitlesDatatext", "koKR", false)
 if not L then return end
 
 --@localization(locale="koKR", format="lua_additive_table", same-key-is-true=true, escape-non-ascii=true, handle-unlocalized="english")@
+
