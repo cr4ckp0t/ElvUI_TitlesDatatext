@@ -5,6 +5,7 @@ local E, _, V, P, G = unpack(ElvUI)
 local DT = E:GetModule('DataTexts')
 local L = E.Libs.ACL:GetLocale("ElvUI_TitlesDatatext", false)
 local EP = E.Libs.EP
+local ACH = E.Libs.ACH
 
 local unpack = _G["unpack"]
 local CreateFrame = _G["CreateFrame"]
@@ -220,7 +221,6 @@ local function CreateMenu(self, level)
 					UIDropDownMenu_AddButton(menu, level)
 				end
 			end
-			
 		end
 	end
 end
@@ -297,56 +297,16 @@ end)
 
 local function InjectOptions()
 	if not E.Options.args.Crackpotx then
-		E.Options.args.Crackpotx = {
-			type = "group",
-			order = -2,
-			name = L["Plugins by |cff0070deCrackpotx|r"],
-			args = {
-				thanks = {
-					type = "description",
-					order = 1,
-					name = L["Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
-				},
-			},
-		}
-	elseif not E.Options.args.Crackpotx.args.thanks then
-		E.Options.args.Crackpotx.args.thanks = {
-			type = "description",
-			order = 1,
-			name = L["Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."],
-		}
+		E.Options.args.Crackpotx = ACH:Group(L["Plugins by |cff0070deCrackpotx|r"])
 	end
-	
-	E.Options.args.Crackpotx.args.titlesdt = {
-		type = "group",
-		name = L["Titles Datatext"],
-		get = function(info) return E.db.titlesdt[info[#info]] end,
-		set = function(info, value) E.db.titlesdt[info[#info]] = value; DT:LoadDataTexts() end,
-		args = {
-			useName = {
-				type = "toggle",
-				order = 4,
-				name = L["Use Character Name"],
-				desc = L["Use your character's class color and name in the tooltip."],
-			},
-			addRandom = {
-				type = "toggle",
-				order = 5,
-				name = L["Random Option"],
-				desc = L["Add random option to the datatext menu.\n\n|cffff0000Changing this setting requires reloading your UI.|r"],
-				get = function(info) return E.db.titlesdt.addRandom end,
-				set = function(info, value) E.db.titlesdt.addRandom = value; E:StaticPopup_Show("TITLESDT_RL") end,
-			},
-			addNone = {
-				type = "toggle",
-				order = 6,
-				name = L["None Option"],
-				desc = L["Add none option to the datatext menu. This will set your title to none.\n\n|cffff0000Changing this setting requires reloading your UI.|r"],
-				get = function(info) return E.db.titlesdt.addNone end,
-				set = function(info, value) E.db.titlesdt.addNone = value; E:StaticPopup_Show("TITLESDT_RL") end,
-			},
-		},
-	}
+	if not E.Options.args.Crackpotx.args.thanks then
+		E.Options.args.Crackpotx.args.thanks = ACH:Description(L["Thanks for using and supporting my work!  -- |cff0070deCrackpotx|r\n\n|cffff0000If you find any bugs, or have any suggestions for any of my addons, please open a ticket at that particular addon's page on CurseForge."], 1)
+	end
+
+	E.Options.args.Crackpotx.args.titlesdt = ACH:Group(L["Titles Datatext"], nil, nil, nil, function(info) return E.db.titlesdt[info[#info]] end, function(info, value) E.db.titlesdt[info[#info]] = value; DT:ForceUpdate_DataText("Titles") end)
+	E.Options.args.Crackpotx.args.titlesdt.args.useName = ACH:Toggle(L["Use Character Name"], L["Use your character's class color and name in the tooltip."], 1)
+	E.Options.args.Crackpotx.args.titlesdt.args.addRandom = ACH:Toggle(L["Random Option"], L["Add random option to the datatext menu.\n\n|cffff0000Changing this setting requires reloading your UI.|r"], 2, nil, nil, nil, function(info) return E.db.titlesdt.addRandom end, function(info, value) E.db.titlesdt.addRandom = value; E:StaticPopup_Show("TITLESDT_RL") end)
+	E.Options.args.Crackpotx.args.titlesdt.args.addNone = ACH:Toggle(L["None Option"], L["Add none option to the datatext menu. This will set your title to none.\n\n|cffff0000Changing this setting requires reloading your UI.|r"], 3, nil, nil, nil, function(info) return E.db.titlesdt.addNone end, function(info, value) E.db.titlesdt.addNone = value; E:StaticPopup_Show("TITLESDT_RL") end)
 end
 
 EP:RegisterPlugin(..., InjectOptions)
