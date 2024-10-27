@@ -1,8 +1,8 @@
-## Interface: 110002
+## Interface: 110005
 ## Author: Crackpot
 ## Title: ElvUI Titles Datatext
 ## IconTexture: Interface\AddOns\ElvUI_TitlesDatatext\Media\crackpot
-## Version: 3.3.11
+## Version: 3.3.12
 ## Notes: Simple titles datatext.
 ## RequiredDeps: ElvUI
 
@@ -19,6 +19,7 @@ Locales\zhCN.lua
 Locales\zhTW.lua
 
 ElvUI_TitlesDatatext.lua
+
 
 
 
